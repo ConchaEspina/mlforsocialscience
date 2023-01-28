@@ -41,3 +41,4 @@ vignettes/*.pdf
 
 # Files
 *_files
+inst/tutorials/.DS_Store
