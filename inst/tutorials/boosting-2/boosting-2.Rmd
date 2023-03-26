@@ -28,7 +28,8 @@ In this notebook we (again) use the drug consumption data. The data contains rec
 Source: https://archive.ics.uci.edu/ml/datasets/Drug+consumption+%28quantified%29
 
 ```{r}
-data(drugs)
+# data(drugs)
+drugs <- read.csv("Drug_Consumption_Quantified.csv")
 ```
 
 First, we build a dummy variable on LSD usage as our outcome of interest.
@@ -87,8 +88,8 @@ The grid object can now be used in the `train` function to guide the tuning proc
 
 ```{r}
 set.seed(8303)
-xgb <- train(D_LSD ~ Age + Gender + Education + Neuroticism + Extraversion +
-             Openness + Agreeableness + Conscientiousness + Impulsive + SS,
+xgb <- train(D_LSD ~ Age + Gender + Education + Nscore + Escore +
+             Oscore + Ascore + Cscore + Impulsive + SS,
              data = drugs_train,
              method = "xgbTree",
              trControl = ctrl,
@@ -115,8 +116,8 @@ Now we run the tuning process with `train()`, using `glmboost` as the prediction
 
 ```{r}
 set.seed(8303)
-mboost <- train(D_LSD ~ Age + Gender + Education + Neuroticism + Extraversion +
-                Openness + Agreeableness + Conscientiousness + Impulsive + SS,
+mboost <- train(D_LSD ~ Age + Gender + Education + Nscore + Escore +
+                Oscore + Ascore + Cscore + Impulsive + SS,
                 data = drugs_train,
                 method = "glmboost",
                 trControl = ctrl,
@@ -152,8 +153,8 @@ Note that now we don't set up a tuning grid, but specify the number of random pi
 
 ```{r}
 set.seed(8303)
-ranger <- train(D_LSD ~ Age + Gender + Education + Neuroticism + Extraversion + 
-                Openness + Agreeableness + Conscientiousness + Impulsive + SS,
+ranger <- train(D_LSD ~ Age + Gender + Education + Nscore + Escore + 
+                Oscore + Ascore + Cscore + Impulsive + SS,
                 data = drugs_train,
                 method = "ranger",
                 trControl = ctrl,
@@ -200,7 +201,8 @@ splom(resamps)
 Finally, we take a look at the `xgboostExplainer` package. Currently it does not work with XGBoost models that were build with `caret`, i.e. we have to use the `xgboost` package to re-build our XGBoost model. We first need a model matrix.
 
 ```{r}
-d_matrix <- model.matrix(D_LSD ~ Age + Gender + Education + Neuroticism + Extraversion + Openness + Agreeableness + Conscientiousness + Impulsive + SS, data = drugs)[,-1]
+d_matrix <- model.matrix(D_LSD ~ Age + Gender + Education + Nscore + Escore + 
+                           Oscore + Ascore + Cscore + Impulsive + SS, data = drugs)[,-1]
 ```
 
 This matrix can be used to create the data objects needed for `xgboost`.

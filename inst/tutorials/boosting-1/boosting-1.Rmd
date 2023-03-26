@@ -27,7 +27,8 @@ In this notebook we (again) use the drug consumption data. The data contains rec
 Source: https://archive.ics.uci.edu/ml/datasets/Drug+consumption+%28quantified%29
 
 ```{r}
-data(drugs)
+# data(drugs)
+drugs <- read.csv("Drug_Consumption_Quantified.csv")
 ```
 
 First, we build a dummy variable on LSD usage as our outcome of interest.
@@ -85,8 +86,8 @@ Now we can pass these two objects on to `train`, along with the specification of
 
 ```{r}
 set.seed(744)
-ada <- train(D_LSD ~ Age + Gender + Education + Neuroticism + Extraversion +
-             Openness + Agreeableness + Conscientiousness + Impulsive + SS,
+ada <- train(D_LSD ~ Age + Gender + Education + Nscore + Escore +
+             Oscore + Ascore + Cscore + Impulsive + SS,
             data = drugs_train,
             method = "adaboost",
             trControl = ctrl,
@@ -121,8 +122,8 @@ grid
 
 ```{r}
 set.seed(744)
-gbm <- train(D_LSD ~ Age + Gender + Education + Neuroticism + Extraversion +
-             Openness + Agreeableness + Conscientiousness + Impulsive + SS,
+gbm <- train(D_LSD ~ Age + Gender + Education + Nscore + Escore +
+             Oscore + Ascore + Cscore + Impulsive + SS,
              data = drugs_train,
              method = "gbm",
              trControl = ctrl,
@@ -163,8 +164,8 @@ Run the tuning process with `train()`.
 
 ```{r}
 set.seed(744)
-cart <- train(D_LSD ~ Age + Gender + Education + Neuroticism + Extraversion +
-             Openness + Agreeableness + Conscientiousness + Impulsive + SS,
+cart <- train(D_LSD ~ Age + Gender + Education + Nscore + Escore +
+             Oscore + Ascore + Cscore + Impulsive + SS,
               data = drugs_train,
               method = "rpart2",
               trControl = ctrl,
@@ -185,8 +186,8 @@ Finally we also add a logistic regression model. Obviously we have no tuning par
 
 ```{r}
 set.seed(744)
-logit <- train(D_LSD ~ Age + Gender + Education + Neuroticism + Extraversion +
-             Openness + Agreeableness + Conscientiousness + Impulsive + SS,
+logit <- train(D_LSD ~ Age + Gender + Education + Nscore + Escore +
+             Oscore + Ascore + Cscore + Impulsive + SS,
              data = drugs_train,
              method = "glm",
              trControl = ctrl)
